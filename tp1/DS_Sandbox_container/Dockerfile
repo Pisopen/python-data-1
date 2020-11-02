@@ -1,17 +1,16 @@
-FROM ubuntu 				# Image de base Ubuntu
-WORKDIR /workspace			# Espace de travail
+FROM ubuntu
+WORKDIR /workspace
 COPY . .
 
-# Installer les packages python, pip3, vim et git
-RUN apt-get install -r -y requirementPackage.txt	
-# Installer les librairies de python
-RUN pip3 install -r requirementLibPython.txt 
+RUN apt-get update
 
-# credential git
-RUN git --global user.name allanCouderette \				
-&& git config --global user.email allan.couderette@free.fr \
-&& git clone https://github.com/allanCouderette/noSql
+RUN apt-get install -y python3.8 python3-pip vim git	
+RUN pip3 install -r requirement.txt 
+
+RUN git config --global user.name allanCouderette \				
+&& git config --global user.email al@google.fr \
+&& git clone https://github.com/allanCouderette/noSql.git
 
 
-EXPOSE 8000 # exposition du port 8000
-CMD ["jupyter", "notebook","--no-browser"]
+EXPOSE 8000
+CMD jupyter notebook --no-browser --allow-root --ip 0.0.0.0 --port 8000 
